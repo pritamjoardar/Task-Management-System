@@ -23,7 +23,9 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-
+        <span class="flex justify-center p-2">
+            <a href="/github"><img class="h-12" src="https://help.dropsource.com/wp-content/uploads/sites/4/2017/02/gh-login-button.png" alt=""></a>
+        </span>
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">

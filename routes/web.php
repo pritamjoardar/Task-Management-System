@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,8 @@ Route::get('/admin/newtask',[AdminController::class,'adminAssignTask'] )->name('
 Route::post('/admin/newtaskAssign',[AdminController::class,'newtaskAssign'] )->name('newtaskAssign');
 Route::get('/admin/delete/{id}',[AdminController::class,'admindeleteTask'] )->name('admindeleteTask');
 
+Route::get('/github',[LoginController::class,'login'] );
+Route::get('/auth/github/callback',[LoginController::class,'loginCallback'] );
 
 Route::get('/dashboard',[UserController::class,'task'] )->middleware(['auth', 'verified'])->name('dashboard');
 Route::middleware('auth')->group(function () {

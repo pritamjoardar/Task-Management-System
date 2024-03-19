@@ -17,7 +17,9 @@ export default {
             colors:{
                 'btn':'#238636',
                 'update':'#e4f70c',
-                'delete':'#e02904'
+                'delete':'#e02904',
+                'dar':'#212121',
+                'progress':'#fd356e'
             }
         },
     },

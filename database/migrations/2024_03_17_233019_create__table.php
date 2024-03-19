@@ -17,8 +17,14 @@ return new class extends Migration
             $table->string('description');
             $table->string('status')->default('pending');
             $table->string('email');
-            $table->string('assign')->nullable();
+            $table->string('assignfrom')->nullable();
+            $table->string('assignto')->nullable();
+            $table->integer('assignid')->nullable();
+            $table->string('file')->nullable();
             $table->string('comments')->nullable();
+            $table->string('commentsby')->nullable();
+            $table->string('commentstime')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }

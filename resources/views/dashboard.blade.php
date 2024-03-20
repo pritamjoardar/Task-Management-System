@@ -1,20 +1,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @extends('dash')
 @section('content')
-<div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8 px-2">
     <div class="flex  justify-between">
         <div class="flex gap-1">
-    <form action="" >
-        <input  type="search" name="search" class="w-[400px]" placeholder="search by name/descriptin/status" id="">
+    <form action="flex" >
+        <input  type="search" name="search" class="w-min md:w-[400px]" placeholder="search by name/descriptin/status" id="">
+        <span class="border">
         <button class="bg-btn p-2 text-white">Search</button>
+        <a href="{{route('dashboard')}}"><button class="bg-delete p-2 text-white mt-2 md:hidden">Reset</button></a>  
+        </span>
     </form>
-    <a href="{{route('dashboard')}}"><button class="bg-delete p-2 text-white">Reset</button></a>  
+    <a href="{{route('dashboard')}}"><button class="bg-delete p-2 text-white hidden md:block">Reset</button></a>  
 </div>
-<span class="flex gap-2">
+<span class="flex gap-2 ">
 @if($role==="admin")
-<a href={{route('admin')}} class="bg-progress h-min text-white font bold px-2 py-1">Admin Dashboard</a>
+<a href={{route('admin')}} class="bg-progress h-min text-white font bold px-2 py-1 md:hidden">Admin</a>
+<a href={{route('admin')}} class="bg-progress h-min text-white font bold px-2 py-1 hidden md:block">Admin Dashboard</a>
 @endif
-    <p class="text-white px-2 py-1 justify-end rounded-full font-bold bg-btn h-min">{{$authemail}}</p>
+    <p class="text-white px-2 py-1 justify-end rounded-full font-bold bg-btn h-min hidden md:block">{{$authemail}}</p>
 </span>
 </div>
    <a href="/create"><button class="bg-btn text-white p-1 rounded-md">Create +</button></a>
@@ -24,23 +28,47 @@
     @endif
 {{-- for assign task --}}
 @foreach($assignedTasks as $task)
-<p>{{$task->category}}</p>
 <div class="mb-2">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
+            @if($authemail!=$task->assignfrom)
+            <h1 class="flex text-btn {{ $task->assignfrom ? '' : 'hidden' }}  md:hidden">Assign from :
+                <p class="text-delete">{{$task->assignfrom}}</p>
+            </h1> 
+            @endif 
+            <span class="flex justify-between md:hidden">
+                <p>{{$task->created_at}}</p>
+                <p class="font-bold text-delete">{{$task->category}}</p>
+                    @if($task->status=='pending')
+                    <p class="text-delete font-bold">{{$task->status}}</p>
+                    @endif
+                    @if($task->status=='in progress')
+                    <p class="text-progress font-bold">{{$task->status}}</p>
+                    @endif                   
+                    @if($task->status=='completed')
+                    <p class="text-btn font-bold">{{$task->status}}</p>
+                    @endif  
+            </span>
+            <span class="flex gap-2 my-1 md:hidden">
+                <a href="/assignTask/{{$task->id}}"><button class="bg-btn px-2 text-white h-min">ASSIGN</button></a>
+                <a href="/update/{{$task->id}}"><button class="bg-progress text-white  px-2 h-min">UPDATE</button></a>
+                <a href="/delete/{{$task->id}}" id="aaa"><button class="bg-delete px-2 text-white h-min" onclick="conformation(event)">DELETE</button></a>
+            </span>
             <div class="flex justify-between">
             <h1 class="text-2xl font-bold">{{$task->title}}</h1>
             <span class="flex justify-between gap-9">         
                 @if($authemail!=$task->assignto)                       
-                <h1 class="flex text-btn {{ $task->assignto ? '' : 'hidden' }}">Assign to :<p class="text-delete">{{$task->assignto }}</p></h1>
+                <h1 class="flex text-btn {{ $task->assignto ? '' : 'hidden' }}">Assign to :<p class="text-delete">{{$task->assignto }}</p>
+                </h1>
                 @endif
             @if($authemail!=$task->assignfrom)
-            <h1 class="flex text-btn {{ $task->assignfrom ? '' : 'hidden' }}">Assign from :
+            <h1 class="flex  text-btn {{ $task->assignfrom ? '' : 'hidden' }} hidden md:block">Assign from :
                 <p class="text-delete">{{$task->assignfrom}}</p>
             </h1> 
             @endif            
-            <p>{{$task->created_at}}</p>
-            <p class="font-bold text-delete">{{$task->category}}</p>
+            <p class="hidden md:block">{{$task->created_at}}</p>
+            <p class="font-bold text-delete hidden md:block">{{$task->category}}</p>
+            <span class="hidden md:block">
                 @if($task->status=='pending')
                 <p class="text-delete font-bold">{{$task->status}}</p>
                 @endif
@@ -49,13 +77,14 @@
                 @endif                   
                 @if($task->status=='completed')
                 <p class="text-btn font-bold">{{$task->status}}</p>
-                @endif  
+                @endif 
+            </span> 
             </span>
             </div>
             <span class="flex justify-between mb-3">
                 <p>{{$task->description}}</p>
                 
-                <span class="flex gap-2">
+                <span class="gap-2 hidden md:flex">
                     <a href="/assignTask/{{$task->id}}"><button class="bg-btn px-2 text-white h-min">ASSIGN</button></a>
                     <a href="/update/{{$task->id}}"><button class="bg-progress text-white  px-2 h-min">UPDATE</button></a>
                     <a href="/delete/{{$task->id}}" id="aaa"><button class="bg-delete px-2 text-white h-min" onclick="conformation(event)">DELETE</button></a>
@@ -79,11 +108,33 @@
     <div class="mb-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
+                @if($task->email!=$task->assignto)                       
+                <h1 class="flex text-btn {{ $task->assignto ? '' : 'hidden' }} md:hidden">Assign to :<p class="text-delete">{{$task->assignto }}</p></h1>
+                @endif
+                <span class="flex justify-between my-2 md:hidden">
+                    <p>{{$task->created_at}}</p>
+                    <p class="font-bold text-delete">{{$task->category}}</p>
+                    @if($task->status=='pending')
+                    <p class="text-delete font-bold">{{$task->status}}</p>
+                    @endif
+                    @if($task->status=='in progress')
+                    <p class="text-progress font-bold">{{$task->status}}</p>
+                    @endif                   
+                    @if($task->status=='completed')
+                    <p class="text-btn font-bold">{{$task->status}}</p>
+                    @endif  
+                </span>
+                <span class="flex gap-2 my-1 md:hidden">
+                    <a href="/assignTask/{{$task->id}}"><button class="bg-btn px-2 text-white h-min">ASSIGN</button></a>
+                    <a href="/update/{{$task->id}}"><button class="bg-progress text-white  px-2 h-min">UPDATE</button></a>
+                    <a href="/delete/{{$task->id}}" id="aaa"><button class="bg-delete px-2 text-white h-min" onclick="conformation(event)">DELETE</button></a>
+                </span>
                 <div class="flex justify-between">
                 <h1 class="text-2xl font-bold">{{$task->title}}</h1>
-                <span class="flex justify-between gap-9">         
+                <span class=" justify-between gap-9 hidden md:flex">         
                     @if($task->email!=$task->assignto)                       
-                    <h1 class="flex text-btn {{ $task->assignto ? '' : 'hidden' }}">Assign to :<p class="text-delete">{{$task->assignto }}</p></h1>
+                    <h1 class="flex text-btn {{ $task->assignto ? '' : 'hidden' }} hidden md:block">Assign to :<p class="text-delete">{{$task->assignto }}</p>
+                    </h1>
                     @endif
                 @if($task->email!=$task->assignfrom)
                 <h1 class="flex text-btn {{ $task->assignfrom ? '' : 'hidden' }}">Assign from :
@@ -106,7 +157,7 @@
                 </div>
                 <span class="flex justify-between mb-3">
                     <p>{{$task->description}}</p>
-                    <span class="flex gap-2">
+                    <span class="gap-2 hidden md:flex">
                         <a href="/assignTask/{{$task->id}}"><button class="bg-btn px-2 text-white h-min">ASSIGN</button></a>
                         <a href="/update/{{$task->id}}"><button class="bg-progress text-white  px-2 h-min">UPDATE</button></a>
                         <a href="/delete/{{$task->id}}" id="aaa"><button class="bg-delete px-2 text-white h-min" onclick="conformation(event)">DELETE</button></a>

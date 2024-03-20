@@ -1,6 +1,6 @@
 @extends('dash')
 @section('content')
-<form action="{{route('update',$data->id)}}" method="POST" enctype="multipart/form-data">
+<form class="p-2" action="{{route('update',$data->id)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="flex flex-col shadow-sm sm:rounded-lg py-2 max-w-7xl mx-auto sm:px-6 lg:px-8">

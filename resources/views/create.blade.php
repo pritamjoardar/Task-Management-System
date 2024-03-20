@@ -1,6 +1,6 @@
 @extends('dash')
 @section('content')
-<form action="{{route('create')}}" method="POST" enctype="multipart/form-data">
+<form action="{{route('create')}}" class="p-2" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="flex flex-col shadow-sm sm:rounded-lg py-2 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <input type="text" required class="p-2 text-2xl" name="title" id="" placeholder="Title">

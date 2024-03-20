@@ -4,13 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.bootstrap4.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap4.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -33,9 +26,9 @@
     <input type="email" class="p-2 w-full"  name="assignto" placeholder="assignto" id="">
     <h1 class="font-bold text-2xl">Comments</h1>
     <input type="text" class="p-2 w-full"   name="comments" placeholder="comments" id="">
-    <span class="flex items-center gap-2">
+    <span class="flex gap-2 flex-col md:flex-row md:items-center">
     <h1 class="font-bold text-2xl">Status</h1>
-    <div class="flex gap-5 mb-2">
+    <div class="flex gap-5 mb-2 ">
         <span class="flex items-center gap-2">
             <input value="pending" type="radio" checked  name="status" id="pending"><h1>Pending</h1>
         </span>
@@ -47,7 +40,7 @@
         </span>
         </div>
     </span>
-        <span class="flex gap-2">
+        <span class="flex gap-2 flex-col md:flex-row">
             <h1 class="font-bold text-2xl">Add File</h1>
             <input type="file" name="file" id="">
         </span>
